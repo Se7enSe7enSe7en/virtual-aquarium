@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
+# dist we need dist for gh pages
 dist-ssr
 coverage
 *.local
