@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
+import { getImageUrl } from "@/utils/getImageUrl.util";
 import { computed, onMounted, onUnmounted, ref, watchEffect } from "vue";
 const props = defineProps({
   imgSrc: {
@@ -223,7 +224,7 @@ const resetHungerClock = () => {
 onMounted(() => {
   // // tick interval range is 1s to 5s
   // tickInterval.value = getRandomInt(1000, 5000)
-  pixelsPerMove.value = getRandomInt(100, 500);
+  pixelsPerMove.value = getRandomInt(100, 250);
   resetHungerClock()
 
   // console.log(`fish.value: ${fish.value} && xLimit.value: ${xLimit.value} && yLimit.value: ${yLimit.value}`); // DEBUG
@@ -247,7 +248,7 @@ onUnmounted(() => {
 
 <template>
   <div ref="fish" class="fixed" @click="isAlive ?  resetHungerClock() : undefined">
-    <img ref="fishImage" class="h-24" :src="isAlive ? imgSrc : '/dead.png'" />
+    <img ref="fishImage" class="h-24" :src="getImageUrl(isAlive ? imgSrc : 'dead.png')" />
     <div class="text-center text-white bg-opacity-50 bg-black">{{ name }}</div>
     <div ref="hungerBar" class="h-2 animate-hunger-bar"></div>
     <!-- hunger bar -->

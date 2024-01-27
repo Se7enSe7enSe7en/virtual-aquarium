@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { getImageUrl } from '@/utils/getImageUrl.util';
 
 const emit = defineEmits(['submitFishForm'])
 
@@ -7,39 +8,39 @@ const fishList = [
   {
     id: 1,
     type: 'golden purple fish',
-    imgSrc: '/golden-purple-fish.png'
+    imgSrc: 'golden-purple-fish.png'
   },
   {
     id: 2,
     type: 'goldfish',
-    imgSrc: '/goldfish.png'
+    imgSrc: 'goldfish.png'
   },
   {
     id: 3,
     type: 'guppie',
-    imgSrc: '/guppie.png'
+    imgSrc: 'guppie.png'
   },
   {
     id: 4,
     type: 'tropical-fish',
-    imgSrc: '/tropical-fish.png'
+    imgSrc: 'tropical-fish.png'
   },
   {
     id: 5,
     type: 'tuna',
-    imgSrc: '/tuna.png'
+    imgSrc: 'tuna.png'
   },
   {
     id: 6,
     type: 'Nostalgic Guppy',
-    imgSrc: '/guppy_flipped.png'
+    imgSrc: 'guppy_flipped.png'
   }
 ]
 
 const specialFishList = [
   {
     name: 'Olek',
-    imgSrc: '/olek_with_scuba_mask.png'
+    imgSrc: 'olek_with_scuba_mask.png'
   }
 ]
 
@@ -80,7 +81,7 @@ const onAddFish = () => {
             :class="{
               'border-2 border-green-500': selectedFishId === fish.id
             }"
-            :src="fish.imgSrc"
+            :src="getImageUrl(fish.imgSrc)"
           />
           <div class="text-center">{{ fish.type }}</div>
         </div>

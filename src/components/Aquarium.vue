@@ -19,8 +19,8 @@ function onDecompose(fishId) {
 </script>
 
 <template>
-  <div class="h-full w-full border-2 border-white">
-    <img class="fixed -z-10 h-full w-full object-cover" src="/bg.jpg" />
+  <div class="h-full w-full">
+    <img class="fixed -z-10 h-full w-full object-cover" src="@/assets/bg.jpg" />
     <Fish
       v-for="fish of aquariumState"
       :key="fish.id"
