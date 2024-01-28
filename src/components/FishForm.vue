@@ -65,7 +65,7 @@ const onAddFish = () => {
 }
 </script>
 <template>
-  <div class="h-screen border-2 border-blue-600 p-4 text-white overflow-y-auto">
+  <div class="h-screen border-2 bg-slate-900 border-blue-600 p-4 text-white overflow-y-auto">
     <div class="mb-24">
       <div class="text-xl">Select Fish</div>
       <!-- fish list -->
