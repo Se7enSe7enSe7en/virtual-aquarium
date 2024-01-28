@@ -82,7 +82,6 @@ const onAddFish = () => {
               'border-2 border-green-500': selectedFishId === fish.id
             }"
             :src="getImageUrl(fish.imgSrc)"
-            alt="@/assets/no_image.jfif"
           />
           <div class="text-center">{{ fish.type }}</div>
         </div>
