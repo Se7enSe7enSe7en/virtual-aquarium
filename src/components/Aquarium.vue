@@ -20,15 +20,27 @@ function onDecompose(fishId) {
 
 <template>
   <div class="h-full w-full">
-    <img class="fixed -z-10 h-full w-full object-cover" src="@/assets/bg.jpg"/>
-    <Fish
-      v-for="fish of aquariumState"
-      :key="fish.id"
-      :name="fish.name"
-      :img-src="fish.imgSrc"
-      @decompose="onDecompose(fish.id)"
-    />
+    <img class="fixed -z-10 h-full w-full object-cover" src="@/assets/bg.jpg" />
+    <TransitionGroup name="fade">
+      <Fish
+        v-for="fish of aquariumState"
+        :key="fish.id"
+        :name="fish.name"
+        :img-src="fish.imgSrc"
+        @decompose="onDecompose(fish.id)"
+      />
+    </TransitionGroup>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { getImageUrl } from "@/utils/getImageUrl.util";
-import { computed, onMounted, onUnmounted, ref, watchEffect } from "vue";
+import { getImageUrl } from '@/utils/getImageUrl.util';
+import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue';
 const props = defineProps({
   imgSrc: {
     type: String,
@@ -13,7 +13,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["decompose"]);
+const emit = defineEmits(['decompose']);
 
 const fish = ref<HTMLDivElement | null>(null);
 const fishImage = ref(null);
@@ -24,15 +24,13 @@ const tickInterval = 5000; // ms (milliseconds)
 const isAlive = ref(true);
 
 const initHungerTimer = 15000; // 15000ms (15sec.)
-const hungerTimer = ref(initHungerTimer); 
+const hungerTimer = ref(initHungerTimer);
 const hungerBar = ref<HTMLDivElement | null>(null);
 
-const xLimit = computed(
-  () => Math.floor(fish.value?.parentElement?.getBoundingClientRect().width)
-);
-watchEffect(() => console.log(xLimit.value))
-const yLimit = computed(
-  () => Math.floor(fish.value?.parentElement?.getBoundingClientRect().height)
+const xLimit = computed(() => Math.floor(fish.value?.parentElement?.getBoundingClientRect().width));
+watchEffect(() => console.log(xLimit.value));
+const yLimit = computed(() =>
+  Math.floor(fish.value?.parentElement?.getBoundingClientRect().height),
 );
 
 function xCheckWithinLimit(x: number): boolean {
@@ -75,11 +73,11 @@ function getRandomInt(min, max) {
 // 6 = W (West)
 // 7 = NW
 // input (num) should only be numbers 0 to 7
-const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 function moveAnimation(el, x, y) {
   el.style.transform = `translateX(${x}px) translateY(${y}px)`;
-  el.style.transition = `transform ${Math.floor(tickInterval / 1000)}s`;
+  el.style.transition = `transform ${tickInterval}ms`;
 }
 
 // 3 possible face directions
@@ -88,15 +86,15 @@ function moveAnimation(el, x, y) {
 // null (no change in face)
 // input (dir) should only be the possible directions
 function faceAnimation(el, dir) {
-  if (typeof dir !== "string") return;
+  if (typeof dir !== 'string') return;
 
-  if (dir.includes("E")) {
-    el.style.transform = "scaleX(1)";
+  if (dir.includes('E')) {
+    el.style.transform = 'scaleX(1)';
     // TODO: try adding "ease"
-    el.style.transition = "transform 0.5s";
-  } else if (dir.includes("W")) {
-    el.style.transform = "scaleX(-1)";
-    el.style.transition = "transform 0.5s";
+    el.style.transition = 'transform 0.5s';
+  } else if (dir.includes('W')) {
+    el.style.transform = 'scaleX(-1)';
+    el.style.transition = 'transform 0.5s';
   }
 
   return;
@@ -108,31 +106,31 @@ function moveFish(dir) {
 
   // calc new x and y depending on direction
   switch (dir) {
-    case "N":
+    case 'N':
       newY -= pixelsPerMove.value;
       break;
-    case "NE":
+    case 'NE':
       newX += pixelsPerMove.value;
       newY -= pixelsPerMove.value;
       break;
-    case "E":
+    case 'E':
       newX += pixelsPerMove.value;
       break;
-    case "SE":
+    case 'SE':
       newX += pixelsPerMove.value;
       newY += pixelsPerMove.value;
       break;
-    case "S":
+    case 'S':
       newY += pixelsPerMove.value;
       break;
-    case "SW":
+    case 'SW':
       newX -= pixelsPerMove.value;
       newY += pixelsPerMove.value;
       break;
-    case "W":
+    case 'W':
       newX -= pixelsPerMove.value;
       break;
-    case "NW":
+    case 'NW':
       newX -= pixelsPerMove.value;
       newY -= pixelsPerMove.value;
       break;
@@ -153,14 +151,14 @@ function moveFish(dir) {
 /**
  * remove the animation properly
  * - https://stackoverflow.com/a/45036752
- * 
- * @param el 
+ *
+ * @param el
  */
 function resetAnimation(el: HTMLElement) {
-  el.style.animation = 'none'
+  el.style.animation = 'none';
   // el.offsetHeight // trigger reflow
-  el.getBoundingClientRect() // trigger reflow
-  el.style.transition = 'none'
+  el.getBoundingClientRect(); // trigger reflow
+  el.style.transition = 'none';
 }
 
 /**
@@ -171,14 +169,26 @@ function resetAnimation(el: HTMLElement) {
  * @param duration - duration should be in milliseconds
  */
 function hungerBarAnimation({
+  hungerBarRef,
   duration,
 }: {
+  hungerBarRef: HTMLDivElement;
   duration: number;
 }) {
-  if (!hungerBar.value) return console.error('hungerBarAnimation: no hunger bar ref');
+  if (!hungerBarRef) return console.error('hungerBarAnimation: no hunger bar ref');
   // clear animation first
-  resetAnimation(hungerBar.value)
-  hungerBar.value.style.animation = `hunger-bar ${duration}ms linear infinite`
+  resetAnimation(hungerBarRef);
+  hungerBarRef.style.animation = `hunger-bar ${duration}ms linear infinite`;
+}
+
+function decomposeAnimation({ el, duration }: { el: HTMLDivElement; duration: number }) {
+  if (!el) return console.error('decomposeAnimation: no element found');
+  resetAnimation(el);
+  console.log('yPosition.value: ', yPosition.value);
+
+  el.style.transition = `transform ${duration}ms linear, opacity ${duration}ms linear`;
+  el.style.transform = `translateX(${xPosition.value}px) translateY(${yPosition.value - 500}px)`;
+  el.style.opacity = '0';
 }
 
 // TODO: refactor in the future try using a composable perhaps like this: https://stackoverflow.com/a/74166482
@@ -196,19 +206,25 @@ const internalClock = setInterval(() => {
 let hungerTick = 0;
 const hungerFunction = () => {
   hungerTick++;
-  console.log("hungerTick: ", hungerTick);
+  // console.log("hungerTick: ", hungerTick); // DEBUG
 
   // 2nd phase of hunger tick: Death
   if (hungerTick === 1) {
-    console.log("DEATH: ", props.name); // DEBUG
+    console.log('DEATH: ', props.name); // DEBUG
     isAlive.value = false;
 
     // clear main clock since fish is dead
-    clearInterval(internalClock)
+    clearInterval(internalClock);
+
+    // start decompose animation
+    decomposeAnimation({
+      el: fish.value,
+      duration: initHungerTimer,
+    });
   }
   // 3rd phase of hunger tick: Decompose
   else if (hungerTick === 2) {
-    emit("decompose");
+    emit('decompose');
   }
 };
 let hungerClock = setInterval(hungerFunction, hungerTimer.value);
@@ -217,6 +233,7 @@ const resetHungerClock = () => {
   hungerTick = 0;
   hungerClock = setInterval(hungerFunction, hungerTimer.value);
   hungerBarAnimation({
+    hungerBarRef: hungerBar.value,
     duration: initHungerTimer,
   });
 };
@@ -225,32 +242,32 @@ onMounted(() => {
   // // tick interval range is 1s to 5s
   // tickInterval.value = getRandomInt(1000, 5000)
   pixelsPerMove.value = getRandomInt(100, 250);
-  resetHungerClock()
+  resetHungerClock();
 
   // console.log(`fish.value: ${fish.value} && xLimit.value: ${xLimit.value} && yLimit.value: ${yLimit.value}`); // DEBUG
-  
+
   // set init position center of parent
   if (fish.value && xLimit.value && yLimit.value) {
-    const initXPosition = Math.floor(xLimit.value / 2)
-    const initYPosition = Math.floor(yLimit.value / 2)
-    xPosition.value = initXPosition
-    yPosition.value = initYPosition
-    fish.value.style.transform = `translateX(${initXPosition}px) translateY(${initYPosition}px)`    
-  } 
+    const initXPosition = Math.floor(xLimit.value / 2);
+    const initYPosition = Math.floor(yLimit.value / 2);
+    xPosition.value = initXPosition;
+    yPosition.value = initYPosition;
+    fish.value.style.transform = `translateX(${initXPosition}px) translateY(${initYPosition}px)`;
+  }
 });
 
 onUnmounted(() => {
-  console.log("UNMOUNT");
+  console.log('UNMOUNT');
   clearInterval(internalClock);
   clearInterval(hungerClock);
 });
 </script>
 
 <template>
-  <div ref="fish" class="fixed" @click="isAlive ?  resetHungerClock() : undefined">
-    <img ref="fishImage" class="h-24" :src="getImageUrl(isAlive ? imgSrc : 'dead.png')"/>
-    <div class="text-center text-white bg-opacity-50 bg-black">{{ name }}</div>
-    <div ref="hungerBar" class="h-2 animate-hunger-bar"></div>
+  <div ref="fish" class="fixed" @click="isAlive ? resetHungerClock() : undefined">
+    <img ref="fishImage" class="h-24" :src="getImageUrl(isAlive ? imgSrc : 'dead.png')" />
+    <div class="bg-black bg-opacity-50 text-center text-white">{{ name }}</div>
+    <div v-if="isAlive" ref="hungerBar" class="h-2 animate-hunger-bar"></div>
     <!-- hunger bar -->
     <!-- DEBUG -->
     <!-- <div class="text-sm flex flex-col">
@@ -258,8 +275,6 @@ onUnmounted(() => {
       <div>ppm: {{ pixelsPerMove }}px</div>
     </div> -->
   </div>
-
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
