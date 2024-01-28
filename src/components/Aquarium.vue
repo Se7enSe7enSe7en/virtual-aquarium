@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { computed } from 'vue'
 import Fish from './Fish.vue'
 import type { AquariumState } from '@/views/Home.vue'
 
@@ -10,8 +9,6 @@ export interface AquariumProps {
   aquariumState: AquariumState[]
 }
 const props = defineProps<AquariumProps>()
-
-computed(() => console.log(props.aquariumState.values))
 
 function onDecompose(fishId) {
   emits('decompose', fishId)

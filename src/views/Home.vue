@@ -17,12 +17,10 @@ const createFish = (name, imgSrc) => {
     name,
     imgSrc
   })
-  console.log(aquariumState)
+  // console.log(aquariumState) // DEBUG
 }
 
 const onSubmitFishForm = ({ name, imgSrc }) => {
-  console.log('name: ', name) // TEST
-  console.log('imgSrc: ', imgSrc) // TEST
   createFish(name, imgSrc)
 }
 

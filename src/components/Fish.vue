@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { getImageUrl } from '@/utils/getImageUrl.util';
-import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 const props = defineProps({
   imgSrc: {
     type: String,
@@ -19,8 +19,8 @@ const fish = ref<HTMLDivElement | null>(null);
 const fishImage = ref(null);
 const xPosition = ref(0);
 const yPosition = ref(0);
-const pixelsPerMove = ref(200); // px
-const tickInterval = 5000; // ms (milliseconds)
+const pixelsPerMove = ref(100); // px
+const tickInterval = 4000; // ms (milliseconds)
 const isAlive = ref(true);
 
 const initHungerTimer = 15000; // 15000ms (15sec.)
@@ -28,7 +28,8 @@ const hungerTimer = ref(initHungerTimer);
 const hungerBar = ref<HTMLDivElement | null>(null);
 
 const xLimit = computed(() => Math.floor(fish.value?.parentElement?.getBoundingClientRect().width));
-watchEffect(() => console.log(xLimit.value));
+// watchEffect(() => console.log(xLimit.value)); // DEBUG
+
 const yLimit = computed(() =>
   Math.floor(fish.value?.parentElement?.getBoundingClientRect().height),
 );
@@ -184,10 +185,8 @@ function hungerBarAnimation({
 function decomposeAnimation({ el, duration }: { el: HTMLDivElement; duration: number }) {
   if (!el) return console.error('decomposeAnimation: no element found');
   resetAnimation(el);
-  console.log('yPosition.value: ', yPosition.value);
-
   el.style.transition = `transform ${duration}ms linear, opacity ${duration}ms linear`;
-  el.style.transform = `translateX(${xPosition.value}px) translateY(${yPosition.value - 500}px)`;
+  // el.style.transform = `translateX(${xPosition.value}px) translateY(${yPosition.value - 500}px)`;
   el.style.opacity = '0';
 }
 
@@ -199,7 +198,7 @@ const internalClock = setInterval(() => {
 
   // move fish depending on generated random number
   const generatedRandomNumber = getRandomInt(0, 8);
-  console.log(`${props.name} tick: `, generatedRandomNumber); // DEBUG
+  // console.log(`${props.name} tick: `, generatedRandomNumber); // DEBUG
   moveFish(directions[generatedRandomNumber]);
 }, tickInterval);
 
@@ -210,7 +209,7 @@ const hungerFunction = () => {
 
   // 2nd phase of hunger tick: Death
   if (hungerTick === 1) {
-    console.log('DEATH: ', props.name); // DEBUG
+    // console.log('DEATH: ', props.name); // DEBUG
     isAlive.value = false;
 
     // clear main clock since fish is dead
@@ -241,7 +240,7 @@ const resetHungerClock = () => {
 onMounted(() => {
   // // tick interval range is 1s to 5s
   // tickInterval.value = getRandomInt(1000, 5000)
-  pixelsPerMove.value = getRandomInt(100, 250);
+  // pixelsPerMove.value = getRandomInt(100, 250);
   resetHungerClock();
 
   // console.log(`fish.value: ${fish.value} && xLimit.value: ${xLimit.value} && yLimit.value: ${yLimit.value}`); // DEBUG
@@ -257,7 +256,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  console.log('UNMOUNT');
+  // console.log('UNMOUNT: ', props.name);
   clearInterval(internalClock);
   clearInterval(hungerClock);
 });
