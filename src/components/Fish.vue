@@ -248,7 +248,7 @@ onUnmounted(() => {
 
 <template>
   <div ref="fish" class="fixed" @click="isAlive ?  resetHungerClock() : undefined">
-    <img ref="fishImage" class="h-24" :src="getImageUrl(isAlive ? imgSrc : 'dead.png')" />
+    <img ref="fishImage" class="h-24" :src="getImageUrl(isAlive ? imgSrc : 'dead.png')" alt="@/assets/no_image.jfif"/>
     <div class="text-center text-white bg-opacity-50 bg-black">{{ name }}</div>
     <div ref="hungerBar" class="h-2 animate-hunger-bar"></div>
     <!-- hunger bar -->
