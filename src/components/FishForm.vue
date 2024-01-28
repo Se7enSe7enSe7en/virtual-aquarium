@@ -90,8 +90,8 @@ const onAddFish = () => {
 
     <!-- name input field -->
     <div class="flex flex-col">
-      <label for="name">Name</label>
-      <input class="rounded-sm text-black" id="name" v-model="nameInputField" />
+      <label>Name</label>
+      <input class="rounded-sm text-black" v-model="nameInputField" />
     </div>
     <!-- add fish button -->
     <button class="my-5 rounded-sm bg-blue-900 p-2 text-lg" @click="onAddFish">Add Fish</button>
