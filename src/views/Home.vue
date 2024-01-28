@@ -32,11 +32,11 @@ function onDecompose(id: string) {
 }
 </script>
 <template>
-  <div class="grid h-full w-full grid-cols-12">
-    <div class="col-span-3">
+  <div class="flex">
+    <div class="w-1/6">
       <FishForm @submit-fish-form="onSubmitFishForm($event)" />
     </div>
-    <div class="col-span-9">
+    <div class="w-5/6">
       <Aquarium :aquarium-state="aquariumState" @decompose="onDecompose($event)" />
     </div>
   </div>

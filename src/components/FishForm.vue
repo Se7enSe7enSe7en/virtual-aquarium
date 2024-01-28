@@ -1,71 +1,71 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 import { getImageUrl } from '@/utils/getImageUrl.util';
 
-const emit = defineEmits(['submitFishForm'])
+const emit = defineEmits(['submitFishForm']);
 
 const fishList = [
   {
     id: 1,
     type: 'golden purple fish',
-    imgSrc: 'golden-purple-fish.png'
+    imgSrc: 'golden-purple-fish.png',
   },
   {
     id: 2,
     type: 'goldfish',
-    imgSrc: 'goldfish.png'
+    imgSrc: 'goldfish.png',
   },
   {
     id: 3,
     type: 'guppie',
-    imgSrc: 'guppie.png'
+    imgSrc: 'guppie.png',
   },
   {
     id: 4,
     type: 'tropical-fish',
-    imgSrc: 'tropical-fish.png'
+    imgSrc: 'tropical-fish.png',
   },
   {
     id: 5,
     type: 'tuna',
-    imgSrc: 'tuna.png'
+    imgSrc: 'tuna.png',
   },
   {
     id: 6,
     type: 'Nostalgic Guppy',
-    imgSrc: 'guppy_flipped.png'
-  }
-]
+    imgSrc: 'guppy_flipped.png',
+  },
+];
 
 const specialFishList = [
   {
     name: 'Olek',
-    imgSrc: 'olek_with_scuba_mask.png'
-  }
-]
+    imgSrc: 'olek_with_scuba_mask.png',
+  },
+];
 
-const selectedFishId = ref(1)
-const nameInputField = ref('')
+const selectedFishId = ref(1);
+const nameInputField = ref('');
 const resetForm = () => {
-  nameInputField.value = ''
-}
+  nameInputField.value = '';
+};
 
 const onAddFish = () => {
-  const specialFish = specialFishList.find(({ name }) => name === nameInputField.value)
+  const specialFish = specialFishList.find(({ name }) => name === nameInputField.value);
 
   const fishFormValue = {
     name: nameInputField.value,
     imgSrc: specialFish
       ? specialFish.imgSrc
-      : fishList.find((x) => x.id === selectedFishId.value).imgSrc
-  }
+      : fishList.find((x) => x.id === selectedFishId.value).imgSrc,
+  };
 
-  emit('submitFishForm', fishFormValue)
-  resetForm()
-}
+  emit('submitFishForm', fishFormValue);
+  resetForm();
+};
 </script>
 <template>
-  <div class="h-screen border-2 bg-slate-900 border-blue-600 p-4 text-white overflow-y-auto">
+  <div class="h-screen overflow-y-auto border-2 border-blue-600 bg-slate-900 p-4 text-white">
     <div class="mb-24">
       <div class="text-xl">Select Fish</div>
       <!-- fish list -->
@@ -79,7 +79,7 @@ const onAddFish = () => {
           <img
             class="h-24 w-24 object-scale-down"
             :class="{
-              'border-2 border-green-500': selectedFishId === fish.id
+              'drop-shadow-highlight-effect': selectedFishId === fish.id,
             }"
             :src="getImageUrl(fish.imgSrc)"
           />

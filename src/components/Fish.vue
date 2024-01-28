@@ -267,7 +267,6 @@ onUnmounted(() => {
     <img ref="fishImage" class="h-24" :src="getImageUrl(isAlive ? imgSrc : 'dead.png')" />
     <div class="bg-black bg-opacity-50 text-center text-white">{{ name }}</div>
     <div v-if="isAlive" ref="hungerBar" class="h-2 animate-hunger-bar"></div>
-    <!-- hunger bar -->
     <!-- DEBUG -->
     <!-- <div class="text-sm flex flex-col">
       <div>tick: {{ tickInterval }}ms</div>

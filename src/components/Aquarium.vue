@@ -1,23 +1,22 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import Fish from './Fish.vue'
-import type { AquariumState } from '@/views/Home.vue'
+import Fish from './Fish.vue';
+import type { AquariumState } from '@/views/Home.vue';
 
-const emits = defineEmits(['decompose'])
+const emits = defineEmits(['decompose']);
 
 export interface AquariumProps {
-  aquariumState: AquariumState[]
+  aquariumState: AquariumState[];
 }
-const props = defineProps<AquariumProps>()
+const props = defineProps<AquariumProps>();
 
 function onDecompose(fishId) {
-  emits('decompose', fishId)
+  emits('decompose', fishId);
 }
 </script>
 
 <template>
-  <div class="h-full w-full">
-    <img class="fixed -z-10 h-full w-full object-cover" src="@/assets/bg.jpg" />
+  <div class="h-screen w-full overflow-hidden bg-aquarium bg-cover">
     <TransitionGroup name="fade">
       <Fish
         v-for="fish of aquariumState"
